@@ -9,7 +9,7 @@ from registro import registrar_ingreso, registrar_egreso
 from telegram_conect import mostrar_consultas, teclado_proveedores
 
 load_dotenv()
-TOKEN = os.getenv("TOKEN")
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 async def borrar_webhook_si_existe():
     bot = Bot(token=TOKEN)
