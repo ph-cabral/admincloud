@@ -1,8 +1,9 @@
 import os
+import asyncio
 import psycopg2
 import pandas as pd
 from db import crear_tabla
-from telegram import Update
+from telegram import Update, bot
 from datetime import datetime
 
 from calculos import calcular_total, mostrar_total
@@ -85,14 +86,29 @@ async def manejar_boton(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_text(mensaje)
         return
 
+async def borrar_webhook_si_existe():
+    bot = Bot(token=TOKEN)
+    webhook_info = await bot.get_webhook_info()
+    if webhook_info.url:
+        print(f"🌐 Webhook detectado: {webhook_info.url} — eliminando...")
+        await bot.delete_webhook()
+    else:
+        print("✅ No hay webhook activo.")
 
-# --- MAIN ---
-if __name__ == "__main__":
+async def main():
     crear_tabla()
+    await borrar_webhook_si_existe()
 
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CallbackQueryHandler(manejar_boton))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_mensaje))
 
     print("🤖 Calculadora lista.")
-    app.run_polling()
+    await app.run_polling()
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except telegram.error.Conflict as e:
+        print("⚠️ ERROR: Ya hay otra instancia del bot corriendo.")
+        print(e)
