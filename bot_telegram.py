@@ -16,8 +16,6 @@ load_dotenv()
 
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-DB_FILE = "movimientos.db"
-
 
 operaciones = {}
 
@@ -44,15 +42,14 @@ async def manejar_boton(update: Update, context: ContextTypes.DEFAULT_TYPE):
         _, proveedor, monto = data.split(":")
         monto = -abs(float(monto))  # egreso
         registrar_egreso(proveedor, monto)
-        # await query.edit_message_text(f"📤 {proveedor}: ${abs(monto):,.2f} \n{mostrar_total(DB_FILE, formatear_monto)} ")
-        total = mostrar_total(DB_FILE, formatear_monto)
+        total = mostrar_total(formatear_monto)
         await query.edit_message_text(f"📤 {proveedor}: ${formatear_monto(abs(monto))} \n{total}")
 
 
     elif data.startswith("cliente:"):
         _, monto = data.split(":")
         registrar_ingreso(float(monto))  # ingreso
-        await query.edit_message_text(f"💰 Ingreso: ${float(monto):,.2f} \n{mostrar_total(DB_FILE, formatear_monto)}")
+        await query.edit_message_text(f"💰 Ingreso: ${float(monto):,.2f} \n{mostrar_total(formatear_monto)}")
     # 
     # elif data.startswith("consulta"):
     else:
@@ -89,7 +86,7 @@ async def manejar_boton(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # --- MAIN ---
 if __name__ == "__main__":
-    crear_tabla(DB_FILE)
+    crear_tabla()
 
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CallbackQueryHandler(manejar_boton))
