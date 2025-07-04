@@ -1,7 +1,7 @@
 import asyncio
 import os
 from dotenv import load_dotenv
-from telegram.ext import ApplicationBuilder, CallbackQueryHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import ApplicationBuilder, CallbackQueryHandler, MessageHandler, filters, ContextTypes,  CommandHandler
 from telegram import Bot
 from db import crear_tabla
 from calculos import calcular_total, mostrar_total
@@ -30,21 +30,13 @@ async def manejar_boton(update, context):
     pass
 
 # --- App principal ---
-async def iniciar_bot():
-    crear_tabla()
-    await borrar_webhook_si_existe()
-
+async def start(update, context):
+    await update.message.reply_text("¡Hola!")
+async def main():
     app = ApplicationBuilder().token(TOKEN).build()
-    app.add_handler(CallbackQueryHandler(manejar_boton))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_mensaje))
+    app.add_handler(CommandHandler("start", start))
 
-    print("🤖 Calculadora lista.")
-    await app.run_polling()
+    await app.run_polling()  # ya maneja el loop
 
-# --- Ejecutar si es script principal ---
 if __name__ == "__main__":
-    try:
-        asyncio.get_event_loop().create_task(iniciar_bot())
-        asyncio.get_event_loop().run_forever()
-    except Exception as e:
-        print(f"❌ Error al iniciar el bot: {e}")
+    asyncio.run(main()) 
