@@ -8,7 +8,7 @@ from datetime import datetime
 from calculos import calcular_total, mostrar_total
 from registro import registrar_ingreso, registrar_egreso
 from telegram_conect import mostrar_consultas, teclado_proveedores
-from telegram.ext import Application, CallbackQueryHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import ApplicationBuilder, CallbackQueryHandler, MessageHandler, filters, ContextTypes
 
 
 from dotenv import load_dotenv
@@ -90,7 +90,7 @@ async def manejar_boton(update: Update, context: ContextTypes.DEFAULT_TYPE):
 if __name__ == "__main__":
     crear_tabla()
 
-    app = Application.builder().token(TOKEN).build()
+    app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CallbackQueryHandler(manejar_boton))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_mensaje))
 
