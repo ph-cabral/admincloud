@@ -3,8 +3,8 @@ from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 
 proveedores = ["Amiplast", "Anibal_Bonino(Pritty)", "Anselmi", "Bachilito", "Buon_Sapore(Jorge)", "Cafaratti(pepsi)", "Careglio",
                "Coca", "Demichelis", "Disbe", "Dutto", "DP(Paladini)", "Esperanza", "Fernando_Cavallo", "Freezo", "Glass", "GrupoM",
-               "La_Esquina", "L&L(Secco)", "La_Bri", "Macellato", "Marzal", "Moni(chocol/ensala)", "Nono_Fidel", "Panero", "PyP", 
-               "Piamontesa", "Placeres_Naturales", "Region_Centro", "Santa_Maria", "Veneziana", "Verduleria", "Otro"]
+               "La_Esquina", "L&L(Secco)", "La_Bri", "Las_Cañitas", "Macellato", "Marzal", "Moni(chocol/ensala)", "Nono_Fidel", "Panero", "PyP", 
+               "Piamontesa", "Placeres_Naturales", "Region_Centro", "Sacheto", "Santa_Maria", "Veneziana", "Verduleria", "Otro"]
 
 
 # --- Teclados ---
