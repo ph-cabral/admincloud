@@ -3,7 +3,7 @@ import asyncio
 import psycopg2
 import pandas as pd
 from db import crear_tabla
-from telegram import Update, bot
+from telegram import Update, Bot
 from datetime import datetime
 
 from calculos import calcular_total, mostrar_total
