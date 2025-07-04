@@ -1,4 +1,5 @@
 import os
+import psycopg2
 import pandas as pd
 from db import crear_tabla
 from telegram import Update
